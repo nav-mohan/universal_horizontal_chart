@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal Bar Chart with D3.js</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div id="form-input">
+        <div class="query-fields-keystrings-input">
+            <p class = "query-fields-keystrings-title">Test-Results Query</p> 
+            <div class="query-fields-input">
+                <textarea class = "query-input"         name = "tr-query-input"                 id = "tr-query-input"                   placeholder="query"></textarea>
+                <textarea class = "fields-input"        name = "tr-fields-input"                id = "tr-fields-input"                  placeholder="fields"></textarea>
+            </div>
+            <div class="keystrings-input">
+                <textarea class = "keystring-input"     name = "tr-value-keystring-input"       id = "tr-value-keystring-input"         placeholder="tr-value-keystring"></textarea>
+                <textarea class = "keystring-input"     name = "tr-dropdown-keystring-input"    id = "tr-dropdown-keystring-input"      placeholder="tr-dropdown-keystring"></textarea>
+            </div>
+        </div>
+        <div class="query-fields-keystrings-input">
+            <p class = "query-fields-keystrings-title">Reference-Data Query</p> 
+            <div class="query-fields-input">
+                <textarea class = "query-input"         name = "rd-query-input"                 id = "rd-query-input"                   placeholder="query"></textarea>
+                <textarea class = "fields-input"        name = "rd-fields-input"                id = "rd-fields-input"                  placeholder="fields"></textarea>
+            </div>
+            <div class="keystrings-input">
+                <textarea class = "keystring-input"     name = "rd-value-keystring-input"       id = "rd-value-keystring-input"         placeholder="rd-value-keystring"></textarea>
+                <textarea class = "keystring-input"     name = "rd-dropdown-keystring-input"    id = "rd-dropdown-keystring-input"      placeholder="rd-dropdown-keystring"></textarea>
+            </div>
+
+        </div>
+        <button id="form-submit-button" onclick="SubmitApiQuery()" >SUBMIT</button>
+    </div>
+    <select class = "dropdown" name="tr-dropdown" id="tr-dropdown"></select>
+    <div class = "chart" id="tr-chart">
+        <h3>Test Results</h3>
+    </div>
+    <select class = "dropdown" name="rd-dropdown" id="rd-dropdown"></select>
+    <div class = "chart" id="rd-chart">
+        <h3>Reference Data</h3>
+    </div>
+    
+    <a id = "chart-url" href=""></a>
+
+</body>
+<script src="globals.js"></script>
+<script src="chart.js"></script>
+<script src="utils_dataparser.js"></script>
+<script src="utils_apiquery.js"></script>
+<script src="utils_userinterface.js"></script>
+<script>
+    window.addEventListener("load",(e)=>{OnFirstLoad();})
+</script>
+</html>
