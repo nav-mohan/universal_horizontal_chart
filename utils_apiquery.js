@@ -72,15 +72,15 @@ function GetAllUrlParams()
 
 function SetUrlParams()
 {
-    __g_apiRequestParameters["tr_query"]                    = JSON.parse(__g_HtmlElements["tr_query_input"].value);
-    __g_apiRequestParameters["tr_fields"]                   = JSON.parse(__g_HtmlElements["tr_fields_input"].value);
-    __g_apiRequestParameters["tr_dropdown_keystring"]       = JSON.parse(__g_HtmlElements["tr_dropdown_keystring_input"].value);
-    __g_apiRequestParameters["tr_value_keystring"]          = JSON.parse(__g_HtmlElements["tr_value_keystring_input"].value);
+    __g_apiRequestParameters["tr_query"]                    = JSON5.parse(__g_HtmlElements["tr_query_input"].value || '""');
+    __g_apiRequestParameters["tr_fields"]                   = JSON5.parse(__g_HtmlElements["tr_fields_input"].value || '""');
+    __g_apiRequestParameters["tr_dropdown_keystring"]       = JSON5.parse(__g_HtmlElements["tr_dropdown_keystring_input"].value || '""');
+    __g_apiRequestParameters["tr_value_keystring"]          = JSON5.parse(__g_HtmlElements["tr_value_keystring_input"].value || '""');
     
-    __g_apiRequestParameters["rd_query"]                    = JSON.parse(__g_HtmlElements["rd_query_input"].value);
-    __g_apiRequestParameters["rd_fields"]                   = JSON.parse(__g_HtmlElements["rd_fields_input"].value);
-    __g_apiRequestParameters["rd_dropdown_keystring"]       = JSON.parse(__g_HtmlElements["rd_dropdown_keystring_input"].value);
-    __g_apiRequestParameters["rd_value_keystring"]          = JSON.parse(__g_HtmlElements["rd_value_keystring_input"].value);
+    __g_apiRequestParameters["rd_query"]                    = JSON5.parse(__g_HtmlElements["rd_query_input"].value || '""');
+    __g_apiRequestParameters["rd_fields"]                   = JSON5.parse(__g_HtmlElements["rd_fields_input"].value || '""');
+    __g_apiRequestParameters["rd_dropdown_keystring"]       = JSON5.parse(__g_HtmlElements["rd_dropdown_keystring_input"].value || '""');
+    __g_apiRequestParameters["rd_value_keystring"]          = JSON5.parse(__g_HtmlElements["rd_value_keystring_input"].value || '""');
 }
 
 

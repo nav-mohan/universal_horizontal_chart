@@ -55,7 +55,10 @@ function ToggleDropdownOnOff()
 
 function UpdateChartUrl()
 {
-    var chart_url   = new URL(window.location).origin;
+    const url       =       new URL(window.location);
+    
+    var chart_url   =       url.origin; 
+    chart_url       +=      url.pathname;
     chart_url       +=      "?tr_query="                +  JSON.stringify(__g_apiRequestParameters["tr_query"]);
     chart_url       +=      "&tr_fields="               +  JSON.stringify(__g_apiRequestParameters["tr_fields"]);
     chart_url       +=      "&tr_value_keystring="      +  JSON.stringify(__g_apiRequestParameters["tr_value_keystring"]);
@@ -68,6 +71,7 @@ function UpdateChartUrl()
     chart_url       +=      "&limit="                   +  JSON.stringify(__g_apiRequestParameters["limit"]);
 
     __g_HtmlElements["chart_url"].innerText = chart_url;
+    __g_HtmlElements["chart_url"].href = chart_url;
 }
 
 function SubmitApiQuery()
@@ -77,6 +81,7 @@ function SubmitApiQuery()
     DoApiQueryAndUpdatePlotsTR();
     DoApiQueryAndUpdatePlotsRD();
     UpdateChartUrl();
+    PopulateFormInput();
 }
 
 function OnFirstLoad()
