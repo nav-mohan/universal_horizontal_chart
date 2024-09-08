@@ -4,15 +4,13 @@
 
 function PopulateFormInput()
 {
-    __g_HtmlElements["tr_query_input"].value                = JSON.stringify(__g_apiRequestParameters["tr_query"],null,"\t")              || "";
-    __g_HtmlElements["tr_fields_input"].value               = JSON.stringify(__g_apiRequestParameters["tr_fields"],null,"\t")             || "";
-    __g_HtmlElements["tr_value_keystring_input"].value      = JSON.stringify(__g_apiRequestParameters["tr_value_keystring"],null,"\t")    || "";
-    __g_HtmlElements["tr_dropdown_keystring_input"].value    = JSON.stringify(__g_apiRequestParameters["tr_dropdown_keystring"],null,"\t") || "";
+    __g_HtmlElements["query_input"].value                   = JSON.stringify(__g_apiRequestParameters["query"],null,"\t")              || "";
+    __g_HtmlElements["fields_input"].value                  = JSON.stringify(__g_apiRequestParameters["fields"],null,"\t")             || "";
 
-    __g_HtmlElements["rd_query_input"].value                = JSON.stringify(__g_apiRequestParameters["rd_query"],null,"\t")              || "";
-    __g_HtmlElements["rd_fields_input"].value               = JSON.stringify(__g_apiRequestParameters["rd_fields"],null,"\t")             || "";
+    __g_HtmlElements["tr_value_keystring_input"].value      = JSON.stringify(__g_apiRequestParameters["tr_value_keystring"],null,"\t")    || "";
+    __g_HtmlElements["tr_dropdown_keystring_input"].value   = JSON.stringify(__g_apiRequestParameters["tr_dropdown_keystring"],null,"\t") || "";
     __g_HtmlElements["rd_value_keystring_input"].value      = JSON.stringify(__g_apiRequestParameters["rd_value_keystring"],null,"\t")    || "";
-    __g_HtmlElements["rd_dropdown_keystring_input"].value    = JSON.stringify(__g_apiRequestParameters["rd_dropdown_keystring"],null,"\t") || "";
+    __g_HtmlElements["rd_dropdown_keystring_input"].value   = JSON.stringify(__g_apiRequestParameters["rd_dropdown_keystring"],null,"\t") || "";
 }
 
 /**
@@ -59,12 +57,10 @@ function UpdateChartUrl()
     
     var chart_url   =       url.origin; 
     chart_url       +=      url.pathname;
-    chart_url       +=      "?tr_query="                +  JSON.stringify(__g_apiRequestParameters["tr_query"]);
-    chart_url       +=      "&tr_fields="               +  JSON.stringify(__g_apiRequestParameters["tr_fields"]);
+    chart_url       +=      "?query="                +  JSON.stringify(__g_apiRequestParameters["query"]);
+    chart_url       +=      "&fields="               +  JSON.stringify(__g_apiRequestParameters["fields"]);
     chart_url       +=      "&tr_value_keystring="      +  JSON.stringify(__g_apiRequestParameters["tr_value_keystring"]);
     chart_url       +=      "&tr_dropdown_keystring="   +  JSON.stringify(__g_apiRequestParameters["tr_dropdown_keystring"]);
-    chart_url       +=      "&rd_query="                +  JSON.stringify(__g_apiRequestParameters["rd_query"]);
-    chart_url       +=      "&rd_fields="               +  JSON.stringify(__g_apiRequestParameters["rd_fields"]);
     chart_url       +=      "&rd_value_keystring="      +  JSON.stringify(__g_apiRequestParameters["rd_value_keystring"]);
     chart_url       +=      "&rd_dropdown_keystring="   +  JSON.stringify(__g_apiRequestParameters["rd_dropdown_keystring"]);
     chart_url       +=      "&database="                +  JSON.stringify(__g_apiRequestParameters["database"]);
@@ -78,8 +74,7 @@ function SubmitApiQuery()
 {
     SetUrlParams();
     ToggleDropdownOnOff();
-    DoApiQueryAndUpdatePlotsTR();
-    DoApiQueryAndUpdatePlotsRD();
+    DoApiQueryAndUpdatePlots();
     UpdateChartUrl();
     PopulateFormInput();
 }
@@ -89,8 +84,7 @@ function OnFirstLoad()
     GetAllUrlParams();
     PopulateFormInput();
     ToggleDropdownOnOff();
-    DoApiQueryAndUpdatePlotsTR();
-    DoApiQueryAndUpdatePlotsRD();
+    DoApiQueryAndUpdatePlots();
     UpdateChartUrl()
 }
 
