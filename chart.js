@@ -1,16 +1,17 @@
 // Set the dimensions and margins of the chart
-const margin = { top: 20, right: 20, bottom: 20, left: 120};
+const margin = { top: 20, right: 80, bottom: 20, left: 150};
 
-const width = window.innerWidth - margin.left - margin.right;
-const height = 800- margin.top - margin.bottom;
-
-
+const chartHeightForRecords = function(nRecords){
+    // do a linear-interpolation to estimate a "good" required chart-height for a given number of records
+    // 0 records    --> window.innerHeight/4
+    // 75 records   --> window.innerHeight
+    return (nRecords * (window.innerHeight)/(75) + window.innerHeight/4);
+}
 
 const td_svg = d3.select("#tr-chart")
     .append("svg")
     .attr("class","chart-svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("id","tr-chart-svg")
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -19,8 +20,7 @@ const td_svg = d3.select("#tr-chart")
 const rd_svg = d3.select("#rd-chart")
     .append("svg")
     .attr("class","chart-svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    .attr("id","rd-chart-svg")
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -43,39 +43,39 @@ const rd_svg = d3.select("#rd-chart")
         runner_version      :   2,
         runner_shortcode    :   "TE_316749760271",
         runner_kimcode      :   "EquilibriumCrystalStructure_A3B2_hP5_164_ad_d_AlNi__TE_316749760271_002",
-
     }
 */
 function UpdateBarPlotTD(plotData)
 {
-    console.log("LOADING BARPLOT TD",plotData)
+    const chartHeight = chartHeightForRecords(plotData.length);
+    const chartWidth = window.innerWidth - margin.left - margin.right;
+    d3.select("#tr-chart-svg").attr("height",chartHeight + margin.top + margin.bottom).attr("width", chartWidth + margin.left + margin.right);
     td_svg.selectAll("*").remove(); // remove the graph
 
-    const minVal = d3.min(plotData, d => d.source_value);
-    const maxVal = d3.max(plotData, d => d.source_value);
+    const minVal = Math.min(0,d3.min(plotData, d => d.source_value));
+    const maxVal = Math.max(0,d3.max(plotData, d => d.source_value));
     const padding = 0.1*(maxVal-minVal); // so that the smallest bar is not "hugging" the axis
 
     // Create a scale for the X axis
     const xscale = d3.scaleLinear()
         .domain([minVal-padding, maxVal+padding])
-        .range([0, width]);
+        .range([0, chartWidth]);
 
     // Create a scale for the Y axis
     const yscale = d3.scaleBand()
         .domain(plotData.map(d => d.subject_shortcode))
-        .range([0, height])
+        .range([0, chartHeight])
         .padding(0.1);
 
     // Add the X axis to the td_svg
     td_svg.append("g")
         .attr('class','horizontal-axis')
-        .attr("transform", `translate(0, ${height})`)
+        .attr("transform", `translate(0, ${chartHeight})`)
         .call(d3.axisBottom(xscale));
 
     // Add the Y axis to the td_svg
     td_svg.append("g")
         .attr('class','vertical-axis')
-        // .attr("transform", `translate(${width+ xscale(maxVal)},0)`)
         .call(d3.axisLeft(yscale));
 
     // Create the bars
@@ -84,9 +84,9 @@ function UpdateBarPlotTD(plotData)
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .attr("x", 0)
+        .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(0))
         .attr("y", d => yscale(d.subject_shortcode))
-        .attr("width", d => xscale(d.source_value))
+        .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
         .attr("height", yscale.bandwidth());
 }
 
@@ -102,32 +102,35 @@ function UpdateBarPlotTD(plotData)
 */
 function UpdateBarPlotRD(plotData)
 {
-    console.log("LOADING BARPLOT RD",plotData)
+    const chartHeight = chartHeightForRecords(plotData.length);
+    const chartWidth = window.innerWidth - margin.left - margin.right;
+    d3.select("#rd-chart-svg").attr("height",chartHeight + margin.top + margin.bottom).attr("width", chartWidth + margin.left + margin.right);
     rd_svg.selectAll("*").remove(); // remove the graph
 
-    const minVal = d3.min(plotData, d => d.source_value);
-    const maxVal = d3.max(plotData, d => d.source_value);
+    const minVal = Math.min(0,d3.min(plotData, d => d.source_value));
+    const maxVal = Math.max(0,d3.max(plotData, d => d.source_value));
+    console.log("RD minMax",minVal,maxVal)
     const padding = 0.1*(maxVal-minVal); // so that the smallest bar is not "hugging" the axis
-
     // Create a scale for the X axis
     const xscale = d3.scaleLinear()
         .domain([minVal-padding, maxVal+padding])
-        .range([0, width]);
-
+        .range([0, chartWidth]);
+    
     // Create a scale for the Y axis
     const yscale = d3.scaleBand()
         .domain(plotData.map(d => d.short_id))
-        .range([0, height])
+        .range([0, chartHeight])
         .padding(0.1);
 
     // Add the X axis to the rd_svg
     rd_svg.append("g")
-        .attr("transform", `translate(0, ${height})`)
+        .attr('class','horizontal-axis')
+        .attr("transform", `translate(0, ${chartHeight})`)
         .call(d3.axisBottom(xscale));
 
     // Add the Y axis to the rd_svg
     rd_svg.append("g")
-        .attr("transform", `translate(${width+ xscale(maxVal)},0)`)
+        .attr('class','vertical-axis')
         .call(d3.axisLeft(yscale));
 
     // Create the bars
@@ -136,8 +139,8 @@ function UpdateBarPlotRD(plotData)
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .attr("x", 0)
+        .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(0))
         .attr("y", d => yscale(d.short_id))
-        .attr("width", d => xscale(d.source_value))
+        .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
         .attr("height", yscale.bandwidth());
 }
