@@ -30,6 +30,7 @@ const __g_rdKeyStringID     = "meta.short-id";
 const __g_defaultQuery = {
     // default query for test-results and reference-data
     "meta.type":{"$in":["tr","rd"]},
+    "meta.subject.shortcode":{"$ne":"MO_959249795837"}, // Exclude LJ_ElliottAkerson_2015_Universal__MO_959249795837_003 from all queries
 };
 const __g_defaultFields = {
     "meta.type":1,
