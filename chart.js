@@ -45,15 +45,20 @@ const rd_svg = d3.select("#rd-chart")
         runner_kimcode      :   "EquilibriumCrystalStructure_A3B2_hP5_164_ad_d_AlNi__TE_316749760271_002",
     }
 */
-function UpdateBarPlotTD(plotData)
+function UpdateBarPlotTD()
 {
+    const plotData = __g_plotData["tr_data"];
     const chartHeight = chartHeightForRecords(plotData.length);
     const chartWidth = window.innerWidth - margin.left - margin.right;
     d3.select("#tr-chart-svg").attr("height",chartHeight + margin.top + margin.bottom).attr("width", chartWidth + margin.left + margin.right);
     td_svg.selectAll("*").remove(); // remove the graph
 
-    const minVal = Math.min(0,d3.min(plotData, d => d.source_value));
-    const maxVal = Math.max(0,d3.max(plotData, d => d.source_value));
+    const minValRD = Math.min(0,d3.min(__g_plotData["rd_data"], d => d.source_value));
+    const minValTR = Math.min(0,d3.min(__g_plotData["tr_data"], d => d.source_value));
+    const maxValRD = Math.max(0,d3.max(__g_plotData["rd_data"], d => d.source_value));
+    const maxValTR = Math.max(0,d3.max(__g_plotData["tr_data"], d => d.source_value));
+    const minVal = Math.min(minValRD,minValTR);
+    const maxVal = Math.max(maxValRD,maxValTR);
     const padding = 0.1*(maxVal-minVal); // so that the smallest bar is not "hugging" the axis
 
     // Create a scale for the X axis
@@ -100,17 +105,22 @@ function UpdateBarPlotTD(plotData)
         description     :   "AlNi in AFLOW crystal prototype A3B2_hP5_164_ad_d (Al3Ni2). Result of a density functional theory relaxation from the aflow.org repository. This is a nominally zero-stress calculation under the AFLOW standard, meaning that the maximum absolute stress component < 10 kbar. Full details of the original computation can be found in the aflow.org repository by referencing the Aflowlib Unique IDentifier (auid) listed in the content-origin field. Selected computational parameters (as defined on aflow.org/documentation) follow. {'dft_type': ['PAW_PBE'], 'ldau_type': 2}",
     }
 */
-function UpdateBarPlotRD(plotData)
+function UpdateBarPlotRD()
 {
+    const plotData = __g_plotData["rd_data"];
     const chartHeight = chartHeightForRecords(plotData.length);
     const chartWidth = window.innerWidth - margin.left - margin.right;
     d3.select("#rd-chart-svg").attr("height",chartHeight + margin.top + margin.bottom).attr("width", chartWidth + margin.left + margin.right);
     rd_svg.selectAll("*").remove(); // remove the graph
 
-    const minVal = Math.min(0,d3.min(plotData, d => d.source_value));
-    const maxVal = Math.max(0,d3.max(plotData, d => d.source_value));
-    console.log("RD minMax",minVal,maxVal)
+    const minValRD = Math.min(0,d3.min(__g_plotData["rd_data"], d => d.source_value));
+    const minValTR = Math.min(0,d3.min(__g_plotData["tr_data"], d => d.source_value));
+    const maxValRD = Math.max(0,d3.max(__g_plotData["rd_data"], d => d.source_value));
+    const maxValTR = Math.max(0,d3.max(__g_plotData["tr_data"], d => d.source_value));
+    const minVal = Math.min(minValRD,minValTR);
+    const maxVal = Math.max(maxValRD,maxValTR);
     const padding = 0.1*(maxVal-minVal); // so that the smallest bar is not "hugging" the axis
+    
     // Create a scale for the X axis
     const xscale = d3.scaleLinear()
         .domain([minVal-padding, maxVal+padding])

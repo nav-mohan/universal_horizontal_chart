@@ -107,57 +107,48 @@ function DoApiQuery(query,fields)
         })
 }
 
-function VerifyDataRD()
-{
-    const rd_value_keystring        = __g_apiRequestParameters["rd_value_keystring"];
-    const dropdown_keystring        = __g_apiRequestParameters["dropdown_keystring"];
-    
-    if(rd_value_keystring == "" || rd_value_keystring == null || rd_value_keystring == undefined) return;
-
-    if(dropdown_keystring != "" && dropdown_keystring != null && dropdown_keystring != undefined)
-    {
-        const dropdownOptions = GetUnique(__g_apiData["rd_data"],dropdown_keystring);
-        PopulateDropdownOptions(dropdownOptions, __g_HtmlElements["dropdown"]);
-        __g_HtmlElements["dropdown"].addEventListener("change",(e) => {
-            const barplotdata = FilterAndParseDataRD(__g_apiData["rd_data"], e.target.value, dropdown_keystring,rd_value_keystring);
-            UpdateBarPlotRD(barplotdata);
-        })
-        __g_HtmlElements["dropdown"].value = dropdownOptions[0];
-        var event = new Event('change');
-        __g_HtmlElements["dropdown"].dispatchEvent(event);
-    }
-    else
-    {
-        const barplotdata = ParseDataRD(__g_apiData["rd_data"],rd_value_keystring);
-        UpdateBarPlotRD(barplotdata);
-    }
-}
-
-
-function VerifyDataTR()
+// parse through the __g_apiData["tr_Data"] and __g_apiData["rd_data"]
+// populate the __g_plotData["tr_data"] and __g_plotData["rd_data"]
+// and then finally call the UpdateBarPlotTR and UpdateVarPlotRD without any function args
+// both elements in __g_plotData must be populated before we call UpdateBarPlot
+function DoVerifyData()
 {
     const tr_value_keystring        = __g_apiRequestParameters["tr_value_keystring"];
+    const rd_value_keystring        = __g_apiRequestParameters["rd_value_keystring"];
     const dropdown_keystring        = __g_apiRequestParameters["dropdown_keystring"];
-    
-    if(tr_value_keystring == "" || tr_value_keystring == null || tr_value_keystring == undefined) return;
 
     if(dropdown_keystring != "" && dropdown_keystring != null && dropdown_keystring != undefined)
     {
-        const dropdownOptions = GetUnique(__g_apiData["tr_data"],dropdown_keystring);
-        PopulateDropdownOptions(dropdownOptions, __g_HtmlElements["dropdown"]);
+        let dropdownOptions = [];
+        if(__g_apiData["tr_data"] && __g_apiData["tr_data"].length)
+        {
+            dropdownOptions = GetUnique(__g_apiData["tr_data"], dropdown_keystring);
+        }
+        else if(__g_apiData["rd_data"] && __g_apiData["rd_data"].length)
+        {
+            dropdownOptions = GetUnique(__g_apiData["rd_data"], dropdown_keystring);
+        }
+        if(dropdownOptions.length)
+            PopulateDropdownOptions(dropdownOptions,__g_HtmlElements["dropdown"]);
+
         __g_HtmlElements["dropdown"].addEventListener("change",(e) => {
-            const barplotdata = FilterAndParseDataTD(__g_apiData["tr_data"], e.target.value, dropdown_keystring,tr_value_keystring);
-            UpdateBarPlotTD(barplotdata);
+            __g_plotData["tr_data"] = FilterAndParseDataTD(__g_apiData["tr_data"], e.target.value, dropdown_keystring,tr_value_keystring);
+            __g_plotData["rd_data"] = FilterAndParseDataRD(__g_apiData["rd_data"], e.target.value, dropdown_keystring,rd_value_keystring);
+            UpdateBarPlotTD();
+            UpdateBarPlotRD();
         })
         __g_HtmlElements["dropdown"].value = dropdownOptions[0];
         var event = new Event('change');
         __g_HtmlElements["dropdown"].dispatchEvent(event);
     }
-    else
+    else 
     {
-        const barplotdata = ParseDataTD(__g_apiData["tr_data"],tr_value_keystring);
-        UpdateBarPlotTD(barplotdata);
+        __g_plotData["tr_data"] = ParseDataTD(__g_apiData["tr_data"],tr_value_keystring);
+        __g_plotData["rd_data"] = ParseDataRD(__g_apiData["rd_data"],rd_value_keystring);
+        UpdateBarPlotTD();
+        UpdateBarPlotRD();
     }
+    
 }
 
 function DoApiQueryAndUpdatePlots()
@@ -171,9 +162,6 @@ function DoApiQueryAndUpdatePlots()
     })
     .then(()=>{
         console.log(__g_apiData);
-        VerifyDataTR();
-    })
-    .then(()=>{
-        VerifyDataRD();
+        DoVerifyData();
     })
 }

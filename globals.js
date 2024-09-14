@@ -66,3 +66,8 @@ const __g_apiData = {
     "tr_data" : [],
     "rd_data" : [],
 };
+
+const __g_plotData = {
+    "tr_data" : [],
+    "rd_data" : [],
+};
