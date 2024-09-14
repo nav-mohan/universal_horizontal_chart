@@ -8,9 +8,8 @@ function PopulateFormInput()
     __g_HtmlElements["fields_input"].value                  = JSON.stringify(__g_apiRequestParameters["fields"],null,"\t")             || "";
 
     __g_HtmlElements["tr_value_keystring_input"].value      = JSON.stringify(__g_apiRequestParameters["tr_value_keystring"],null,"\t")    || "";
-    __g_HtmlElements["tr_dropdown_keystring_input"].value   = JSON.stringify(__g_apiRequestParameters["tr_dropdown_keystring"],null,"\t") || "";
     __g_HtmlElements["rd_value_keystring_input"].value      = JSON.stringify(__g_apiRequestParameters["rd_value_keystring"],null,"\t")    || "";
-    __g_HtmlElements["rd_dropdown_keystring_input"].value   = JSON.stringify(__g_apiRequestParameters["rd_dropdown_keystring"],null,"\t") || "";
+    __g_HtmlElements["dropdown_keystring_input"].value   = JSON.stringify(__g_apiRequestParameters["dropdown_keystring"],null,"\t") || "";
 }
 
 /**
@@ -35,19 +34,12 @@ function PopulateDropdownOptions(optionsArray,dropdownElement)
 
 function ToggleDropdownOnOff()
 {
-    const dropdownKeyStringTD = __g_apiRequestParameters["tr_dropdown_keystring"];
-    const dropdownKeyStringRD = __g_apiRequestParameters["rd_dropdown_keystring"];
-    __g_HtmlElements["tr_dropdown"].style.display = "block";
-    __g_HtmlElements["rd_dropdown"].style.display = "block";
-    if(dropdownKeyStringTD == "" || dropdownKeyStringTD == null || dropdownKeyStringTD == undefined)
+    const dropdownKeyString = __g_apiRequestParameters["dropdown_keystring"];
+    __g_HtmlElements["dropdown"].style.display = "block";
+    if(dropdownKeyString == "" || dropdownKeyString == null || dropdownKeyString == undefined)
     {
-        console.log("DISPLAY NONE TD");
-        __g_HtmlElements["tr_dropdown"].style.display = "None";
-    }
-    if(dropdownKeyStringRD == "" || dropdownKeyStringRD  == null || dropdownKeyStringRD  == undefined)
-    {
-        console.log("DISPLAY NONE RD");
-        __g_HtmlElements["rd_dropdown"].style.display = "None";
+        console.log("DISPLAY NONE DROPDOWN");
+        __g_HtmlElements["dropdown"].style.display = "None";
     }
 }
 
@@ -57,12 +49,11 @@ function UpdateChartUrl()
     
     var chart_url   =       url.origin; 
     chart_url       +=      url.pathname;
-    chart_url       +=      "?query="                +  JSON.stringify(__g_apiRequestParameters["query"]);
-    chart_url       +=      "&fields="               +  JSON.stringify(__g_apiRequestParameters["fields"]);
+    chart_url       +=      "?query="                   +  JSON.stringify(__g_apiRequestParameters["query"]);
+    chart_url       +=      "&fields="                  +  JSON.stringify(__g_apiRequestParameters["fields"]);
     chart_url       +=      "&tr_value_keystring="      +  JSON.stringify(__g_apiRequestParameters["tr_value_keystring"]);
-    chart_url       +=      "&tr_dropdown_keystring="   +  JSON.stringify(__g_apiRequestParameters["tr_dropdown_keystring"]);
     chart_url       +=      "&rd_value_keystring="      +  JSON.stringify(__g_apiRequestParameters["rd_value_keystring"]);
-    chart_url       +=      "&rd_dropdown_keystring="   +  JSON.stringify(__g_apiRequestParameters["rd_dropdown_keystring"]);
+    chart_url       +=      "&dropdown_keystring="      +  JSON.stringify(__g_apiRequestParameters["dropdown_keystring"]);
     chart_url       +=      "&database="                +  JSON.stringify(__g_apiRequestParameters["database"]);
     chart_url       +=      "&limit="                   +  JSON.stringify(__g_apiRequestParameters["limit"]);
 

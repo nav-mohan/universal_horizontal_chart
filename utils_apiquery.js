@@ -5,31 +5,24 @@
 /**
  * Retrieve all the key-value pairs of parameters from the URL
  * For example, from the given URL
- * http://localhost:8000/?query={"meta.type":{"$in":["tr","rd"]},"prototype-label.source-value":"A2B_hP9_154_c_a","stoichiometric-species.source-value":["O","Si"],"property-id":"tag:staff@noreply.openkim.org,2023-02-21:property/binding-energy-crystal"}&fields={"binding-potential-energy-per-atom.source-value":1,"meta.subject.extended-id":1,"meta.description":1,"meta.subject.description":1,"meta.short-id":1,"meta.type":1,"parameter-names.source-value":1,"parameter-values.source-value":1}&tr_value_keystring="binding-potential-energy-per-atom.source-value"&tr_dropdown_keystring=""&rd_value_keystring="parameter-values.source-value"&rd_dropdown_keystring="parameter-names.source-value"&database="data"&limit="0"
+ * http://localhost:8000/?query={"prototype-label.source-value":"A3B2_hP5_164_ad_d","stoichiometric-species.source-value":["Al","Ni"],"property-id":"tag:staff@noreply.openkim.org,2023-02-21:property/binding-energy-crystal"}&fields={"binding-potential-energy-per-atom.source-value":1,"parameter-names.source-value":1,"parameter-values.source-value":1}&tr_value_keystring="parameter-values.source-value"&rd_value_keystring="parameter-values.source-value"&dropdown_keystring="parameter-names.source-value"&database="data"&limit="0"
  * GetallUrlParams() returns 
  * {
  *      "query":{
- *          "meta.type": {"$in": ["tr","rd"]},
- *          "prototype-label.source-value": "A2B_hP9_154_c_a",
- *          "stoichiometric-species.source-value": ["O","Si"],
- *          "property-id": "tag:staff@noreply.openkim.org,2023-02-21:property/binding-energy-crystal"
- *       },
+	        "prototype-label.source-value": "A3B2_hP5_164_ad_d",
+	        "stoichiometric-species.source-value": ["Al","Ni"],
+	        "property-id": "tag:staff@noreply.openkim.org,2023-02-21:property/binding-energy-crystal"
+        },
  *      "fields":{
- *          "binding-potential-energy-per-atom.source-value": 1,
- *          "meta.subject.extended-id": 1,
- *          "meta.description": 1,
- *          "meta.subject.description": 1,
- *          "meta.short-id": 1,
- *          "meta.type": 1,
- *          "parameter-names.source-value": 1,
- *          "parameter-values.source-value": 1
- *      }
+            "binding-potential-energy-per-atom.source-value": 1,
+            "parameter-names.source-value": 1,
+            "parameter-values.source-value": 1
+        },
+ *      "tr_value_keystring": ""parameter-values.source-value""
+ *      "rd_value_keystring": ""parameter-values.source-value"",
+ *      "dropdown_keystring": "parameter-names.source-value",
  *      "database":"data",
  *      "limit":0,
- *      "rd_dropdown_keystring": "parameter-names.source-value",
- *      "rd_value_keystring": "parameter-values.source-value",
- *      "tr_dropdown_keystring": "",
- *      "tr_value_keystring": "binding-potential-energy-per-atom.source-value"
  * } 
  * @returns {null} It populates the key-value of the global variable __g_apiRequestParameters
  */
@@ -39,9 +32,8 @@ function GetAllUrlParams()
     __g_apiRequestParameters["query"]                       = {};
     __g_apiRequestParameters["fields"]                      = {};
     __g_apiRequestParameters["tr_value_keystring"]          = "";
-    __g_apiRequestParameters["tr_dropdown_keystring"]       = "";
     __g_apiRequestParameters["rd_value_keystring"]          = "";
-    __g_apiRequestParameters["rd_dropdown_keystring"]       = "";
+    __g_apiRequestParameters["dropdown_keystring"]          = "";
     __g_apiRequestParameters["database"]                    = "data";
     __g_apiRequestParameters["limit"]                       = "0";
 
@@ -66,9 +58,8 @@ function GetAllUrlParams()
     __g_apiRequestParameters["query"]                       = result["query"]                       || {};
     __g_apiRequestParameters["fields"]                      = result["fields"]                      || {};
     __g_apiRequestParameters["tr_value_keystring"]          = result["tr_value_keystring"]          || "";
-    __g_apiRequestParameters["tr_dropdown_keystring"]       = result["tr_dropdown_keystring"]       || "";
     __g_apiRequestParameters["rd_value_keystring"]          = result["rd_value_keystring"]          || "";
-    __g_apiRequestParameters["rd_dropdown_keystring"]       = result["rd_dropdown_keystring"]       || "";
+    __g_apiRequestParameters["dropdown_keystring"]          = result["dropdown_keystring"]       || "";
     __g_apiRequestParameters["database"]                    = result["database"]                    || "data";
     __g_apiRequestParameters["limit"]                       = result["limit"]                       || "0";
 
@@ -79,9 +70,8 @@ function SetUrlParams()
     __g_apiRequestParameters["query"]                       = JSON5.parse(__g_HtmlElements["query_input"].value || '""');
     __g_apiRequestParameters["fields"]                      = JSON5.parse(__g_HtmlElements["fields_input"].value || '""');
 
-    __g_apiRequestParameters["tr_dropdown_keystring"]       = JSON5.parse(__g_HtmlElements["tr_dropdown_keystring_input"].value || '""');
     __g_apiRequestParameters["tr_value_keystring"]          = JSON5.parse(__g_HtmlElements["tr_value_keystring_input"].value || '""');
-    __g_apiRequestParameters["rd_dropdown_keystring"]       = JSON5.parse(__g_HtmlElements["rd_dropdown_keystring_input"].value || '""');
+    __g_apiRequestParameters["dropdown_keystring"]          = JSON5.parse(__g_HtmlElements["dropdown_keystring_input"].value || '""');
     __g_apiRequestParameters["rd_value_keystring"]          = JSON5.parse(__g_HtmlElements["rd_value_keystring_input"].value || '""');
 }
 
@@ -120,21 +110,21 @@ function DoApiQuery(query,fields)
 function VerifyDataRD()
 {
     const rd_value_keystring        = __g_apiRequestParameters["rd_value_keystring"];
-    const rd_dropdown_keystring     = __g_apiRequestParameters["rd_dropdown_keystring"];
+    const dropdown_keystring        = __g_apiRequestParameters["dropdown_keystring"];
     
     if(rd_value_keystring == "" || rd_value_keystring == null || rd_value_keystring == undefined) return;
 
-    if(rd_dropdown_keystring != "" && rd_dropdown_keystring != null && rd_dropdown_keystring != undefined)
+    if(dropdown_keystring != "" && dropdown_keystring != null && dropdown_keystring != undefined)
     {
-        const dropdownOptions = GetUnique(__g_apiData["rd_data"],rd_dropdown_keystring);
-        PopulateDropdownOptions(dropdownOptions, __g_HtmlElements["rd_dropdown"]);
-        __g_HtmlElements["rd_dropdown"].addEventListener("change",(e) => {
-            const barplotdata = FilterAndParseDataRD(__g_apiData["rd_data"], e.target.value, rd_dropdown_keystring,rd_value_keystring);
+        const dropdownOptions = GetUnique(__g_apiData["rd_data"],dropdown_keystring);
+        PopulateDropdownOptions(dropdownOptions, __g_HtmlElements["dropdown"]);
+        __g_HtmlElements["dropdown"].addEventListener("change",(e) => {
+            const barplotdata = FilterAndParseDataRD(__g_apiData["rd_data"], e.target.value, dropdown_keystring,rd_value_keystring);
             UpdateBarPlotRD(barplotdata);
         })
-        __g_HtmlElements["rd_dropdown"].value = dropdownOptions[0];
+        __g_HtmlElements["dropdown"].value = dropdownOptions[0];
         var event = new Event('change');
-        __g_HtmlElements["rd_dropdown"].dispatchEvent(event);
+        __g_HtmlElements["dropdown"].dispatchEvent(event);
     }
     else
     {
@@ -147,21 +137,21 @@ function VerifyDataRD()
 function VerifyDataTR()
 {
     const tr_value_keystring        = __g_apiRequestParameters["tr_value_keystring"];
-    const tr_dropdown_keystring     = __g_apiRequestParameters["tr_dropdown_keystring"];
+    const dropdown_keystring        = __g_apiRequestParameters["dropdown_keystring"];
     
     if(tr_value_keystring == "" || tr_value_keystring == null || tr_value_keystring == undefined) return;
 
-    if(tr_dropdown_keystring != "" && tr_dropdown_keystring != null && tr_dropdown_keystring != undefined)
+    if(dropdown_keystring != "" && dropdown_keystring != null && dropdown_keystring != undefined)
     {
-        const dropdownOptions = GetUnique(__g_apiData["tr_data"],tr_dropdown_keystring);
-        PopulateDropdownOptions(dropdownOptions, __g_HtmlElements["tr_dropdown"]);
-        __g_HtmlElements["tr_dropdown"].addEventListener("change",(e) => {
-            const barplotdata = FilterAndParseDataTD(__g_apiData["tr_data"], e.target.value, tr_dropdown_keystring,tr_value_keystring);
+        const dropdownOptions = GetUnique(__g_apiData["tr_data"],dropdown_keystring);
+        PopulateDropdownOptions(dropdownOptions, __g_HtmlElements["dropdown"]);
+        __g_HtmlElements["dropdown"].addEventListener("change",(e) => {
+            const barplotdata = FilterAndParseDataTD(__g_apiData["tr_data"], e.target.value, dropdown_keystring,tr_value_keystring);
             UpdateBarPlotTD(barplotdata);
         })
-        __g_HtmlElements["tr_dropdown"].value = dropdownOptions[0];
+        __g_HtmlElements["dropdown"].value = dropdownOptions[0];
         var event = new Event('change');
-        __g_HtmlElements["tr_dropdown"].dispatchEvent(event);
+        __g_HtmlElements["dropdown"].dispatchEvent(event);
     }
     else
     {

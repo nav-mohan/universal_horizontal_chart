@@ -8,14 +8,12 @@ const __g_HtmlElements = {
     "fields_input"                  : document.getElementById("fields-input"),
 
     "tr_value_keystring_input"      : document.getElementById("tr-value-keystring-input"),
-    "tr_dropdown_keystring_input"   : document.getElementById("tr-dropdown-keystring-input"),
     "rd_value_keystring_input"      : document.getElementById("rd-value-keystring-input"),
-    "rd_dropdown_keystring_input"   : document.getElementById("rd-dropdown-keystring-input"),
+    "dropdown_keystring_input"      : document.getElementById("dropdown-keystring-input"),
 
     "form_submit_button"            : document.getElementById("form-submit-button"),
 
-    "tr_dropdown"                   : document.getElementById("tr-dropdown"),
-    "rd_dropdown"                   : document.getElementById("rd-dropdown"),
+    "dropdown"                      : document.getElementById("dropdown"),
 
     "chart_td"                      : document.getElementById("tr-chart"),
     "chart_rd"                      : document.getElementById("rd-chart"),
@@ -57,9 +55,8 @@ const __g_apiRequestParameters = {
     "fields"                    : {},
 
     "tr_value_keystring"        : "",
-    "tr_dropdown_keystring"     : "",
     "rd_value_keystring"        : "",
-    "rd_dropdown_keystring"     : "",
+    "dropdown_keystring"        : "",
 
     "database"                  : "data",
     "limit"                     : "0",
