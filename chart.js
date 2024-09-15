@@ -93,6 +93,70 @@ function UpdateBarPlotTD()
         .attr("y", d => yscale(d.subject_shortcode))
         .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
         .attr("height", yscale.bandwidth());
+
+    // line-plots for mean and standard-deviation of TR and RD
+    const tr_mean = d3.mean(__g_plotData["tr_data"], d => d.source_value);
+    const tr_std = d3.deviation(__g_plotData["tr_data"], d => d.source_value);
+    const rd_mean = d3.mean(__g_plotData["rd_data"], d => d.source_value);
+    const rd_std = d3.deviation(__g_plotData["rd_data"], d => d.source_value);
+    const yscaleMeanTR = d3.scalePoint().domain(__g_plotData["tr_data"].map(d => d.subject_shortcode)).range([0,chartHeight]).padding(0.1);
+    const yscaleMeanRD = d3.scalePoint().domain(__g_plotData["rd_data"].map(d => d.short_id)).range([0,chartHeight]).padding(0.1);
+    const lineMeanTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean));
+    const lineMeanPlusStdTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean + tr_std));
+    const lineMeanMinusStdTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean - tr_std));
+    const lineMeanRD = d3.line().y(d => yscaleMeanRD(d.short_id)).x(d => xscale(rd_mean));
+    const lineMeanPlusStdRD = d3.line().y(d => yscaleMeanRD(d.short_id)).x(d => xscale(rd_mean + rd_std));
+    const lineMeanMinusStdRD = d3.line().y(d => yscaleMeanRD(d.short_id)).x(d => xscale(rd_mean - rd_std));
+
+    // Add the line path
+    td_svg.append("path")
+        .datum(__g_plotData["tr_data"])
+        .attr("class", "line")
+        .attr('fill','none')
+        .attr("stroke","white")
+        .attr("stroke-width","1px")
+        .attr("d", lineMeanTR);
+    // Add the line path
+    td_svg.append("path")
+        .datum(__g_plotData["tr_data"])
+        .attr("class", "line")
+        .attr('fill','none')
+        .attr("stroke","white")
+        .attr("stroke-width","1px")
+        .attr("d", lineMeanPlusStdTR);
+    // Add the line path
+    td_svg.append("path")
+        .datum(__g_plotData["tr_data"])
+        .attr("class", "line")
+        .attr('fill','none')
+        .attr("stroke","white")
+        .attr("stroke-width","1px")
+        .attr("d", lineMeanMinusStdTR);
+    
+    // Add the line path
+    td_svg.append("path")
+        .datum(__g_plotData["rd_data"])
+        .attr("class", "line")
+        .attr('fill','none')
+        .attr("stroke","red")
+        .attr("stroke-width","1px")
+        .attr("d", lineMeanRD);
+    // Add the line path
+    td_svg.append("path")
+        .datum(__g_plotData["rd_data"])
+        .attr("class", "line")
+        .attr('fill','none')
+        .attr("stroke","red")
+        .attr("stroke-width","1px")
+        .attr("d", lineMeanPlusStdRD);
+    // Add the line path
+    td_svg.append("path")
+        .datum(__g_plotData["rd_data"])
+        .attr("class", "line")
+        .attr('fill','none')
+        .attr("stroke","red")
+        .attr("stroke-width","1px")
+        .attr("d", lineMeanMinusStdRD);
 }
 
 /**
@@ -120,7 +184,7 @@ function UpdateBarPlotRD()
     const minVal = Math.min(minValRD,minValTR);
     const maxVal = Math.max(maxValRD,maxValTR);
     const padding = 0.1*(maxVal-minVal); // so that the smallest bar is not "hugging" the axis
-    
+
     // Create a scale for the X axis
     const xscale = d3.scaleLinear()
         .domain([minVal-padding, maxVal+padding])
@@ -153,4 +217,68 @@ function UpdateBarPlotRD()
         .attr("y", d => yscale(d.short_id))
         .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
         .attr("height", yscale.bandwidth());
+
+        // line-plots for mean and standard-deviation of TR and RD
+        const tr_mean = d3.mean(__g_plotData["tr_data"], d => d.source_value);
+        const tr_std = d3.deviation(__g_plotData["tr_data"], d => d.source_value);
+        const rd_mean = d3.mean(__g_plotData["rd_data"], d => d.source_value);
+        const rd_std = d3.deviation(__g_plotData["rd_data"], d => d.source_value);
+        const yscaleMeanTR = d3.scalePoint().domain(__g_plotData["tr_data"].map(d => d.subject_shortcode)).range([0,chartHeight]).padding(0.1);
+        const yscaleMeanRD = d3.scalePoint().domain(__g_plotData["rd_data"].map(d => d.short_id)).range([0,chartHeight]).padding(0.1);
+        const lineMeanTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean));
+        const lineMeanPlusStdTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean + tr_std));
+        const lineMeanMinusStdTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean - tr_std));
+        const lineMeanRD = d3.line().y(d => yscaleMeanRD(d.short_id)).x(d => xscale(rd_mean));
+        const lineMeanPlusStdRD = d3.line().y(d => yscaleMeanRD(d.short_id)).x(d => xscale(rd_mean + rd_std));
+        const lineMeanMinusStdRD = d3.line().y(d => yscaleMeanRD(d.short_id)).x(d => xscale(rd_mean - rd_std));
+    
+        // Add the line path
+        rd_svg.append("path")
+            .datum(__g_plotData["tr_data"])
+            .attr("class", "line")
+            .attr('fill','none')
+            .attr("stroke","white")
+            .attr("stroke-width","1px")
+            .attr("d", lineMeanTR);
+        // Add the line path
+        rd_svg.append("path")
+            .datum(__g_plotData["tr_data"])
+            .attr("class", "line")
+            .attr('fill','none')
+            .attr("stroke","white")
+            .attr("stroke-width","1px")
+            .attr("d", lineMeanPlusStdTR);
+        // Add the line path
+        rd_svg.append("path")
+            .datum(__g_plotData["tr_data"])
+            .attr("class", "line")
+            .attr('fill','none')
+            .attr("stroke","white")
+            .attr("stroke-width","1px")
+            .attr("d", lineMeanMinusStdTR);
+        
+        // Add the line path
+        rd_svg.append("path")
+            .datum(__g_plotData["rd_data"])
+            .attr("class", "line")
+            .attr('fill','none')
+            .attr("stroke","red")
+            .attr("stroke-width","1px")
+            .attr("d", lineMeanRD);
+        // Add the line path
+        rd_svg.append("path")
+            .datum(__g_plotData["rd_data"])
+            .attr("class", "line")
+            .attr('fill','none')
+            .attr("stroke","red")
+            .attr("stroke-width","1px")
+            .attr("d", lineMeanPlusStdRD);
+        // Add the line path
+        rd_std.append("path")
+            .datum(__g_plotData["rd_data"])
+            .attr("class", "line")
+            .attr('fill','none')
+            .attr("stroke","red")
+            .attr("stroke-width","1px")
+            .attr("d", lineMeanMinusStdRD);
 }
