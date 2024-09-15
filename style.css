@@ -184,3 +184,87 @@ body {
     margin: 1em 0 3em 0;
     padding: 1em;
 }
+
+/**************************************/
+/** TOOLTIP **/
+/**************************************/
+
+#tooltip
+{
+    position: absolute;
+    display: none;
+
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    background-color: #fff;
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+
+}
+#tooltip-title{}
+#tooltip-description{}
+#tooltip-value{}
+
+#test-result-mean{color: #1df500;}
+#test-result-std1{color: #1df500;}
+#test-result-std2{color: #1df500;}
+#test-result-mean::before{content: "Test Result Mean: ";}
+#test-result-std1::before{content: "Test Result Below Dev: ";}
+#test-result-std2::before{content: "Test Result Above Dev: ";}
+#reference-data-mean{color: #f00404;}
+#reference-data-std1{color: #f00404;}
+#reference-data-std2{color: #f00404;}
+#reference-data-mean::before{content: "Reference Data Mean: ";}
+#reference-data-std1::before{content: "Reference Data Below Dev: ";}
+#reference-data-std2::before{content: "Reference Data Above Dev: ";}
+
+/**************************************/
+/** POPUP **/
+/**************************************/
+#popup-screen
+{
+    position: fixed;
+    z-index: 50;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(2, 2, 2, 0.548);
+    display: none;
+}
+
+#popup
+{
+    position: fixed;
+    z-index: 100;
+    top: 30vh;
+    max-height: 50vh;
+    width: 70vw;
+    left: 15vw;
+    overflow: scroll;
+
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    background-color: #fff;
+    border: 1px solid #e4e4e4;
+    border-radius: 5px;
+}
+
+#popup-title
+{
+    font-size: 2em;
+    font-weight: 600;
+    
+}
+#popup-citation
+{
+    font-size: 1em;
+    font-weight: 400;
+}
+#popup-description
+{
+    font-size: 1em;
+    font-weight: 100;
+}

@@ -61,6 +61,44 @@ function UpdateChartUrl()
     __g_HtmlElements["chart_url"].href = chart_url;
 }
 
+function UpdateTooltip(event, title, description, value, trMean, trStd1, trStd2, rdMean, rdStd1, rdStd2)
+{
+    __g_HtmlElements["tooltip-title"].innerText = title;
+    __g_HtmlElements["tooltip-description"].innerText = description;
+
+    __g_HtmlElements["tooltip-value"].innerText = value;
+
+    __g_HtmlElements["test-result-mean"].innerText = trMean;
+    __g_HtmlElements["test-result-std1"].innerText = trStd1;
+    __g_HtmlElements["test-result-std2"].innerText = trStd2;
+
+    __g_HtmlElements["reference-data-mean"].innerText = rdMean;
+    __g_HtmlElements["reference-data-std1"].innerText = rdStd1;
+    __g_HtmlElements["reference-data-std2"].innerText = rdStd2;
+
+    __g_HtmlElements["tooltip"].style.left = event.layerX + 5 + 'px';
+    __g_HtmlElements["tooltip"].style.top = event.layerY + 'px';
+    __g_HtmlElements["tooltip"].style.display = "block";
+}
+
+function HideTooltip()
+{
+    __g_HtmlElements["tooltip"].style.display = "none";
+}
+
+function UpdatePopup(event, title, href, citation, description)
+{
+    __g_HtmlElements['popup-title'].innerText = title;
+    __g_HtmlElements['popup-citation'].innerText = citation;
+    __g_HtmlElements['popup-citation'].href = "https://openkim.org/id/"+href;;
+    __g_HtmlElements['popup-description'].innerText = description;
+
+    __g_HtmlElements["popup-screen"].style.display = "block";
+}
+__g_HtmlElements['popup-screen'].addEventListener('click',(e)=>{
+        if(e.target.getAttribute('id') == 'popup-screen') __g_HtmlElements["popup-screen"].style.display = "none";
+    ;});
+
 function SubmitApiQuery()
 {
     SetUrlParams();

@@ -83,17 +83,6 @@ function UpdateBarPlotTD()
         .attr('class','vertical-axis')
         .call(d3.axisLeft(yscale));
 
-    // Create the bars
-    td_svg.selectAll(".bar")
-        .data(plotData)
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(0))
-        .attr("y", d => yscale(d.subject_shortcode))
-        .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
-        .attr("height", yscale.bandwidth());
-
     // line-plots for mean and standard-deviation of TR and RD
     const tr_mean = d3.mean(__g_plotData["tr_data"], d => d.source_value);
     const tr_std = d3.deviation(__g_plotData["tr_data"], d => d.source_value);
@@ -108,6 +97,21 @@ function UpdateBarPlotTD()
     const lineMeanPlusStdRD = d3.line().y(d => yscaleMeanRD(d.short_id)).x(d => xscale(rd_mean + rd_std));
     const lineMeanMinusStdRD = d3.line().y(d => yscaleMeanRD(d.short_id)).x(d => xscale(rd_mean - rd_std));
 
+    // Create the bars
+    td_svg.selectAll(".bar")
+        .data(plotData)
+        .enter()
+        .append("rect")
+        .attr("class", "bar")
+        .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(0))
+        .attr("y", d => yscale(d.subject_shortcode))
+        .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
+        .attr("height", yscale.bandwidth())
+        .on("mouseover", (e,d)=>{UpdateTooltip(e,d.subject_extended_id,d.subject_shortcode,d.source_value,tr_mean,tr_mean+tr_std,tr_mean-tr_std,rd_mean,rd_mean+rd_std,rd_mean-rd_std)})
+        .on("mousemove", (e,d)=>{UpdateTooltip(e,d.subject_extended_id,d.subject_shortcode,d.source_value,tr_mean,tr_mean+tr_std,tr_mean-tr_std,rd_mean,rd_mean+rd_std,rd_mean-rd_std)})
+        .on("mouseout", (e,d)=>{HideTooltip()})
+        .on('click',(e,d)=>{UpdatePopup(e, d.subject_extended_id, d.subject_extended_id, d.subject_title, d.subject_description)})
+        
     // Create the line-plots of mean, mean ± std
     td_svg.append("path").datum(__g_plotData["tr_data"]).attr("class", "line tr").attr("d", lineMeanTR);
     td_svg.append("path").datum(__g_plotData["tr_data"]).attr("class", "line tr").attr("d", lineMeanPlusStdTR);
@@ -166,17 +170,6 @@ function UpdateBarPlotRD()
         .attr('class','vertical-axis')
         .call(d3.axisLeft(yscale));
 
-    // Create the bars
-    rd_svg.selectAll(".bar")
-        .data(plotData)
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(0))
-        .attr("y", d => yscale(d.short_id))
-        .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
-        .attr("height", yscale.bandwidth());
-
         // line-plots for mean and standard-deviation of TR and RD
         const tr_mean = d3.mean(__g_plotData["tr_data"], d => d.source_value);
         const tr_std = d3.deviation(__g_plotData["tr_data"], d => d.source_value);
@@ -190,7 +183,22 @@ function UpdateBarPlotRD()
         const lineMeanRD = d3.line().y(d => yscaleMeanRD(d.short_id)).x(d => xscale(rd_mean));
         const lineMeanPlusStdRD = d3.line().y(d => yscaleMeanRD(d.short_id)).x(d => xscale(rd_mean + rd_std));
         const lineMeanMinusStdRD = d3.line().y(d => yscaleMeanRD(d.short_id)).x(d => xscale(rd_mean - rd_std));
-    
+
+        // Create the bars
+        rd_svg.selectAll(".bar")
+            .data(plotData)
+            .enter()
+            .append("rect")
+            .attr("class", "bar")
+            .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(0))
+            .attr("y", d => yscale(d.short_id))
+            .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
+            .attr("height", yscale.bandwidth())
+            .on("mouseover", (e,d)=>{UpdateTooltip(e,"Reference Data",d.short_id,d.source_value,tr_mean,tr_mean+tr_std,tr_mean-tr_std,rd_mean,rd_mean+rd_std,rd_mean-rd_std)})
+            .on("mousemove", (e,d)=>{UpdateTooltip(e,"Reference Data",d.short_id,d.source_value,tr_mean,tr_mean+tr_std,tr_mean-tr_std,rd_mean,rd_mean+rd_std,rd_mean-rd_std)})
+            .on("mouseout", (e,d)=>{HideTooltip()})
+            .on('click',(e,d)=>{UpdatePopup(e, "Reference Data", d.short_id, d.short_id, d.description)})
+
     // Create the line-plots of mean, mean ± std
 
     rd_svg.append("path").datum(__g_plotData["tr_data"]).attr("class", "line tr").attr("d", lineMeanTR);

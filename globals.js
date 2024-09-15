@@ -19,6 +19,23 @@ const __g_HtmlElements = {
     "chart_rd"                      : document.getElementById("rd-chart"),
 
     "chart_url"                     : document.getElementById("chart-url"),
+
+    "tooltip"                       : document.getElementById("tooltip"),
+    "tooltip-title"                 : document.getElementById("tooltip-title"),
+    "tooltip-description"           : document.getElementById("tooltip-description"),
+    "tooltip-value"                 : document.getElementById("tooltip-value"),
+    "test-result-mean"              : document.getElementById("test-result-mean"),
+    "test-result-std1"              : document.getElementById("test-result-std1"),
+    "test-result-std2"              : document.getElementById("test-result-std2"),
+    "reference-data-mean"           : document.getElementById("reference-data-mean"),
+    "reference-data-std1"           : document.getElementById("reference-data-std1"),
+    "reference-data-std2"           : document.getElementById("reference-data-std2"),
+
+    "popup"                         : document.getElementById("popup"),
+    "popup-screen"                  : document.getElementById("popup-screen"),
+    "popup-title"                   : document.getElementById("popup-title"),
+    "popup-citation"                : document.getElementById("popup-citation"),
+    "popup-description"             : document.getElementById("popup-description"),
 };
 
 /** GLOBAL VARIABLES FOR QUERYING THE Query-Site https://query.openkim.org/api*/
