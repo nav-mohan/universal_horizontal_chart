@@ -150,6 +150,21 @@ body {
     font-weight: bold;
 }
 
+.line
+{
+    fill: none;
+    stroke-width: 2px;
+}
+
+.line.rd
+{
+    stroke:#f00404;
+}
+.line.tr
+{
+    stroke: #1df500;;
+}
+
 .chart-svg
 {
     border: 1px solid red;
