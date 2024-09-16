@@ -52,13 +52,16 @@ function UpdateBarPlotTD()
     const chartWidth = window.innerWidth - margin.left - margin.right;
     d3.select("#tr-chart-svg").attr("height",chartHeight + margin.top + margin.bottom).attr("width", chartWidth + margin.left + margin.right);
     td_svg.selectAll("*").remove(); // remove the graph
+    if(!plotData || !plotData.length) return;
 
     const minValRD = Math.min(0,d3.min(__g_plotData["rd_data"], d => d.source_value));
     const minValTR = Math.min(0,d3.min(__g_plotData["tr_data"], d => d.source_value));
     const maxValRD = Math.max(0,d3.max(__g_plotData["rd_data"], d => d.source_value));
     const maxValTR = Math.max(0,d3.max(__g_plotData["tr_data"], d => d.source_value));
-    const minVal = Math.min(minValRD,minValTR);
-    const maxVal = Math.max(maxValRD,maxValTR);
+    let minVal = minValTR;
+    let maxVal = maxValTR;
+    if(minValRD && minValRD < minValTR) minVal = minValRD;
+    if(maxValRD && maxValRD > maxValTR) maxVal = maxValRD;
     const padding = 0.1*(maxVal-minVal); // so that the smallest bar is not "hugging" the axis
 
     // Create a scale for the X axis
@@ -139,13 +142,16 @@ function UpdateBarPlotRD()
     const chartWidth = window.innerWidth - margin.left - margin.right;
     d3.select("#rd-chart-svg").attr("height",chartHeight + margin.top + margin.bottom).attr("width", chartWidth + margin.left + margin.right);
     rd_svg.selectAll("*").remove(); // remove the graph
+    if(!plotData || !plotData.length) return;
 
     const minValRD = Math.min(0,d3.min(__g_plotData["rd_data"], d => d.source_value));
     const minValTR = Math.min(0,d3.min(__g_plotData["tr_data"], d => d.source_value));
     const maxValRD = Math.max(0,d3.max(__g_plotData["rd_data"], d => d.source_value));
     const maxValTR = Math.max(0,d3.max(__g_plotData["tr_data"], d => d.source_value));
-    const minVal = Math.min(minValRD,minValTR);
-    const maxVal = Math.max(maxValRD,maxValTR);
+    let minVal = minValRD;
+    let maxVal = maxValRD;
+    if(minValTR && minValTR < minValRD) minVal = minValTR;
+    if(maxValTR && maxValTR > maxValRD) maxVal = maxValTR;
     const padding = 0.1*(maxVal-minVal); // so that the smallest bar is not "hugging" the axis
 
     // Create a scale for the X axis
