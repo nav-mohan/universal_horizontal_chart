@@ -1,3 +1,12 @@
+:root 
+{
+    --tr_bar:#9854ba;
+    --rd_bar: #54acba;
+    --rd_line:#e38b49;
+    --tr_line: #999999;
+}
+  
+
 *
 {
     margin: 0;
@@ -54,7 +63,7 @@ body {
 .fields-input {
     flex-basis: 45%;
     margin: 0 1em 0 1em ;
-    min-height: 10em;
+    min-height: 12em;
     padding: 0.5em;
     font-size: 1em;
     border: 1px solid #ccc;
@@ -119,17 +128,17 @@ body {
 /** CHART **/
 /**************************************/
 
+.chart-title {
+    font-weight: 600;
+    font-size: medium;
+}
+
 .chart {
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 100%;
     padding: 1em;
     background-color: #fff;
-    border: 1px solid black;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    /* min-height: 300px; */
 }
 .vertical-axis > .tick
 {
@@ -137,12 +146,18 @@ body {
 }
 
 .bar {
-    fill: #007bff;
     transition: fill 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+.bar.tr{
+    fill:var(--tr_bar);
+
+}
+.bar.rd{
+    fill: var(--rd_bar);
 }
 
 .bar:hover {
-    fill: #0056b3;
+    opacity: 0.8;
 }
 
 .bar-label {
@@ -158,16 +173,16 @@ body {
 
 .line.rd
 {
-    stroke:#f00404;
+    stroke:var(--rd_line)
 }
 .line.tr
 {
-    stroke: #1df500;;
+    stroke: var(--tr_line);
 }
 
 .chart-svg
 {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     width: 100%;
 }
 
@@ -193,28 +208,29 @@ body {
 {
     position: absolute;
     display: none;
-
+    font-weight: 600;
     display: flex;
     flex-direction: column;
     padding: 1em;
     background-color: #fff;
     border: 1px solid #e4e4e4;
     border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
 
 }
 #tooltip-title{}
 #tooltip-description{}
 #tooltip-value{}
 
-#test-result-mean{color: #1df500;}
-#test-result-std1{color: #1df500;}
-#test-result-std2{color: #1df500;}
+#test-result-mean{color: var(--tr_line);}
+#test-result-std1{color: var(--tr_line);}
+#test-result-std2{color: var(--tr_line);}
 #test-result-mean::before{content: "Test Result Mean: ";}
 #test-result-std1::before{content: "Test Result Below Dev: ";}
 #test-result-std2::before{content: "Test Result Above Dev: ";}
-#reference-data-mean{color: #f00404;}
-#reference-data-std1{color: #f00404;}
-#reference-data-std2{color: #f00404;}
+#reference-data-mean{color: var(--rd_line);}
+#reference-data-std1{color: var(--rd_line);}
+#reference-data-std2{color: var(--rd_line);}
 #reference-data-mean::before{content: "Reference Data Mean: ";}
 #reference-data-std1::before{content: "Reference Data Below Dev: ";}
 #reference-data-std2::before{content: "Reference Data Above Dev: ";}
@@ -240,28 +256,31 @@ body {
     z-index: 100;
     top: 30vh;
     max-height: 50vh;
-    width: 70vw;
-    left: 15vw;
+    width: 60vw;
+    left: 20vw;
     overflow: scroll;
 
     display: flex;
     flex-direction: column;
-    padding: 1em;
+    padding: 3em 2em 2em 2em;
     background-color: #fff;
-    border: 1px solid #e4e4e4;
+    border: 2px solid #333333;
     border-radius: 5px;
+
 }
 
 #popup-title
 {
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: 600;
+    margin-bottom: 0.15em;
     
 }
 #popup-citation
 {
-    font-size: 1em;
+    font-size: 1.25em;
     font-weight: 400;
+    margin-bottom: 0.25em;
 }
 #popup-description
 {

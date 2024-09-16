@@ -91,8 +91,8 @@ function UpdateBarPlotTD()
     const tr_std = d3.deviation(__g_plotData["tr_data"], d => d.source_value);
     const rd_mean = d3.mean(__g_plotData["rd_data"], d => d.source_value);
     const rd_std = d3.deviation(__g_plotData["rd_data"], d => d.source_value);
-    const yscaleMeanTR = d3.scalePoint().domain(__g_plotData["tr_data"].map(d => d.subject_shortcode)).range([0,chartHeight]).padding(0.1);
-    const yscaleMeanRD = d3.scalePoint().domain(__g_plotData["rd_data"].map(d => d.short_id)).range([0,chartHeight]).padding(0.1);
+    const yscaleMeanTR = d3.scalePoint().domain(__g_plotData["tr_data"].map(d => d.subject_shortcode)).range([0,chartHeight]).padding(0);
+    const yscaleMeanRD = d3.scalePoint().domain(__g_plotData["rd_data"].map(d => d.short_id)).range([0,chartHeight]).padding(0);
     const lineMeanTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean));
     const lineMeanPlusStdTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean + tr_std));
     const lineMeanMinusStdTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean - tr_std));
@@ -105,7 +105,7 @@ function UpdateBarPlotTD()
         .data(plotData)
         .enter()
         .append("rect")
-        .attr("class", "bar")
+        .attr("class", "bar tr")
         .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(0))
         .attr("y", d => yscale(d.subject_shortcode))
         .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
@@ -181,8 +181,8 @@ function UpdateBarPlotRD()
         const tr_std = d3.deviation(__g_plotData["tr_data"], d => d.source_value);
         const rd_mean = d3.mean(__g_plotData["rd_data"], d => d.source_value);
         const rd_std = d3.deviation(__g_plotData["rd_data"], d => d.source_value);
-        const yscaleMeanTR = d3.scalePoint().domain(__g_plotData["tr_data"].map(d => d.subject_shortcode)).range([0,chartHeight]).padding(0.1);
-        const yscaleMeanRD = d3.scalePoint().domain(__g_plotData["rd_data"].map(d => d.short_id)).range([0,chartHeight]).padding(0.1);
+        const yscaleMeanTR = d3.scalePoint().domain(__g_plotData["tr_data"].map(d => d.subject_shortcode)).range([0,chartHeight]).padding(0);
+        const yscaleMeanRD = d3.scalePoint().domain(__g_plotData["rd_data"].map(d => d.short_id)).range([0,chartHeight]).padding(0);
         const lineMeanTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean));
         const lineMeanPlusStdTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean + tr_std));
         const lineMeanMinusStdTR = d3.line().y(d => yscaleMeanTR(d.subject_shortcode)).x(d => xscale(tr_mean - tr_std));
@@ -195,7 +195,7 @@ function UpdateBarPlotRD()
             .data(plotData)
             .enter()
             .append("rect")
-            .attr("class", "bar")
+            .attr("class", "bar rd")
             .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(0))
             .attr("y", d => yscale(d.short_id))
             .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
