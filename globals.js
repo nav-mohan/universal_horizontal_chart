@@ -7,8 +7,7 @@ const __g_HtmlElements = {
     "query_input"                   : document.getElementById("query-input"),
     "fields_input"                  : document.getElementById("fields-input"),
 
-    "tr_value_keystring_input"      : document.getElementById("tr-value-keystring-input"),
-    "rd_value_keystring_input"      : document.getElementById("rd-value-keystring-input"),
+    "value_keystring_input"         : document.getElementById("value-keystring-input"),
     "dropdown_keystring_input"      : document.getElementById("dropdown-keystring-input"),
 
     "form_submit_button"            : document.getElementById("form-submit-button"),
@@ -71,8 +70,7 @@ const __g_apiRequestParameters = {
     "query"                     : {},
     "fields"                    : {},
 
-    "tr_value_keystring"        : "",
-    "rd_value_keystring"        : "",
+    "value_keystring"           : "",
     "dropdown_keystring"        : "",
 
     "database"                  : "data",

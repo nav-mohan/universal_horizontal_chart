@@ -7,8 +7,7 @@ function PopulateFormInput()
     __g_HtmlElements["query_input"].value                   = JSON.stringify(__g_apiRequestParameters["query"],null,"\t")              || "";
     __g_HtmlElements["fields_input"].value                  = JSON.stringify(__g_apiRequestParameters["fields"],null,"\t")             || "";
 
-    __g_HtmlElements["tr_value_keystring_input"].value      = JSON.stringify(__g_apiRequestParameters["tr_value_keystring"],null,"\t")    || "";
-    __g_HtmlElements["rd_value_keystring_input"].value      = JSON.stringify(__g_apiRequestParameters["rd_value_keystring"],null,"\t")    || "";
+    __g_HtmlElements["value_keystring_input"].value      = JSON.stringify(__g_apiRequestParameters["value_keystring"],null,"\t")    || "";
     __g_HtmlElements["dropdown_keystring_input"].value   = JSON.stringify(__g_apiRequestParameters["dropdown_keystring"],null,"\t") || "";
 }
 
@@ -51,8 +50,7 @@ function UpdateChartUrl()
     chart_url       +=      url.pathname;
     chart_url       +=      "?query="                   +  JSON.stringify(__g_apiRequestParameters["query"]);
     chart_url       +=      "&fields="                  +  JSON.stringify(__g_apiRequestParameters["fields"]);
-    chart_url       +=      "&tr_value_keystring="      +  JSON.stringify(__g_apiRequestParameters["tr_value_keystring"]);
-    chart_url       +=      "&rd_value_keystring="      +  JSON.stringify(__g_apiRequestParameters["rd_value_keystring"]);
+    chart_url       +=      "&value_keystring="         +  JSON.stringify(__g_apiRequestParameters["value_keystring"]);
     chart_url       +=      "&dropdown_keystring="      +  JSON.stringify(__g_apiRequestParameters["dropdown_keystring"]);
     chart_url       +=      "&database="                +  JSON.stringify(__g_apiRequestParameters["database"]);
     chart_url       +=      "&limit="                   +  JSON.stringify(__g_apiRequestParameters["limit"]);

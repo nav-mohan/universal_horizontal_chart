@@ -5,7 +5,7 @@
 /**
  * Retrieve all the key-value pairs of parameters from the URL
  * For example, from the given URL
- * http://localhost:8000/?query={"prototype-label.source-value":"A3B2_hP5_164_ad_d","stoichiometric-species.source-value":["Al","Ni"],"property-id":"tag:staff@noreply.openkim.org,2023-02-21:property/binding-energy-crystal"}&fields={"binding-potential-energy-per-atom.source-value":1,"parameter-names.source-value":1,"parameter-values.source-value":1}&tr_value_keystring="parameter-values.source-value"&rd_value_keystring="parameter-values.source-value"&dropdown_keystring="parameter-names.source-value"&database="data"&limit="0"
+ * http://localhost:8000/?query={"prototype-label.source-value":"A3B2_hP5_164_ad_d","stoichiometric-species.source-value":["Al","Ni"],"property-id":"tag:staff@noreply.openkim.org,2023-02-21:property/binding-energy-crystal"}&fields={"binding-potential-energy-per-atom.source-value":1,"parameter-names.source-value":1,"parameter-values.source-value":1}&value_keystring="parameter-values.source-value"&dropdown_keystring="parameter-names.source-value"&database="data"&limit="0"
  * GetallUrlParams() returns 
  * {
  *      "query":{
@@ -18,8 +18,7 @@
             "parameter-names.source-value": 1,
             "parameter-values.source-value": 1
         },
- *      "tr_value_keystring": ""parameter-values.source-value""
- *      "rd_value_keystring": ""parameter-values.source-value"",
+ *      "value_keystring": "parameter-values.source-value",
  *      "dropdown_keystring": "parameter-names.source-value",
  *      "database":"data",
  *      "limit":0,
@@ -31,8 +30,7 @@ function GetAllUrlParams()
     // FIRST, RESET ALL THE MEMBERS OF _g_apiRequestParameters;
     __g_apiRequestParameters["query"]                       = {};
     __g_apiRequestParameters["fields"]                      = {};
-    __g_apiRequestParameters["tr_value_keystring"]          = "";
-    __g_apiRequestParameters["rd_value_keystring"]          = "";
+    __g_apiRequestParameters["value_keystring"]             = "";
     __g_apiRequestParameters["dropdown_keystring"]          = "";
     __g_apiRequestParameters["database"]                    = "data";
     __g_apiRequestParameters["limit"]                       = "0";
@@ -57,8 +55,7 @@ function GetAllUrlParams()
     // FINALLY, SET THE VALUES FOR THE GLOBAL VARIABLE __g_apiRequestParameters
     __g_apiRequestParameters["query"]                       = result["query"]                       || {};
     __g_apiRequestParameters["fields"]                      = result["fields"]                      || {};
-    __g_apiRequestParameters["tr_value_keystring"]          = result["tr_value_keystring"]          || "";
-    __g_apiRequestParameters["rd_value_keystring"]          = result["rd_value_keystring"]          || "";
+    __g_apiRequestParameters["value_keystring"]             = result["value_keystring"]             || "";
     __g_apiRequestParameters["dropdown_keystring"]          = result["dropdown_keystring"]       || "";
     __g_apiRequestParameters["database"]                    = result["database"]                    || "data";
     __g_apiRequestParameters["limit"]                       = result["limit"]                       || "0";
@@ -70,9 +67,8 @@ function SetUrlParams()
     __g_apiRequestParameters["query"]                       = JSON5.parse(__g_HtmlElements["query_input"].value || '""');
     __g_apiRequestParameters["fields"]                      = JSON5.parse(__g_HtmlElements["fields_input"].value || '""');
 
-    __g_apiRequestParameters["tr_value_keystring"]          = JSON5.parse(__g_HtmlElements["tr_value_keystring_input"].value || '""');
+    __g_apiRequestParameters["value_keystring"]             = JSON5.parse(__g_HtmlElements["value_keystring_input"].value || '""');
     __g_apiRequestParameters["dropdown_keystring"]          = JSON5.parse(__g_HtmlElements["dropdown_keystring_input"].value || '""');
-    __g_apiRequestParameters["rd_value_keystring"]          = JSON5.parse(__g_HtmlElements["rd_value_keystring_input"].value || '""');
 }
 
 
@@ -113,8 +109,7 @@ function DoApiQuery(query,fields)
 // both elements in __g_plotData must be populated before we call UpdateBarPlot
 function DoVerifyData()
 {
-    const tr_value_keystring        = __g_apiRequestParameters["tr_value_keystring"];
-    const rd_value_keystring        = __g_apiRequestParameters["rd_value_keystring"];
+    const value_keystring        = __g_apiRequestParameters["value_keystring"];
     const dropdown_keystring        = __g_apiRequestParameters["dropdown_keystring"];
 
     if(dropdown_keystring != "" && dropdown_keystring != null && dropdown_keystring != undefined)
@@ -132,8 +127,8 @@ function DoVerifyData()
             PopulateDropdownOptions(dropdownOptions,__g_HtmlElements["dropdown"]);
 
         __g_HtmlElements["dropdown"].addEventListener("change",(e) => {
-            __g_plotData["tr_data"] = FilterAndParseDataTD(__g_apiData["tr_data"], e.target.value, dropdown_keystring,tr_value_keystring);
-            __g_plotData["rd_data"] = FilterAndParseDataRD(__g_apiData["rd_data"], e.target.value, dropdown_keystring,rd_value_keystring);
+            __g_plotData["tr_data"] = FilterAndParseDataTD(__g_apiData["tr_data"], e.target.value, dropdown_keystring,value_keystring);
+            __g_plotData["rd_data"] = FilterAndParseDataRD(__g_apiData["rd_data"], e.target.value, dropdown_keystring,value_keystring);
             UpdateBarPlotTD();
             UpdateBarPlotRD();
         })
@@ -143,8 +138,8 @@ function DoVerifyData()
     }
     else 
     {
-        __g_plotData["tr_data"] = ParseDataTD(__g_apiData["tr_data"],tr_value_keystring);
-        __g_plotData["rd_data"] = ParseDataRD(__g_apiData["rd_data"],rd_value_keystring);
+        __g_plotData["tr_data"] = ParseDataTD(__g_apiData["tr_data"],value_keystring);
+        __g_plotData["rd_data"] = ParseDataRD(__g_apiData["rd_data"],value_keystring);
         UpdateBarPlotTD();
         UpdateBarPlotRD();
     }
