@@ -66,5 +66,9 @@
 <script src="utils_userinterface.js"></script>
 <script>
     window.addEventListener("load",(e)=>{OnFirstLoad();})
+    window.addEventListener("resize",(e)=>{
+        UpdateBarPlotTD();
+        UpdateBarPlotRD();
+    })
 </script>
 </html>
