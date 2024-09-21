@@ -207,6 +207,7 @@ body {
 #tooltip
 {
     position: absolute;
+    min-width: 25%;
     display: none;
     font-weight: 600;
     display: flex;
@@ -216,12 +217,21 @@ body {
     border: 1px solid #e4e4e4;
     border-radius: 5px;
     font-family: 'Courier New', Courier, monospace;
-
 }
-#tooltip-title{}
+#tooltip>div
+{
+    display: flex;
+    justify-content: space-between;
+}
+#tooltip-title
+{
+    font-size: large;
+    text-decoration: underline;
+}
 #tooltip-description{}
+#tooltip-description::before{content: "Short-ID: ";}
 #tooltip-value{}
-
+#tooltip-value::before{content: "Value: ";}
 #test-result-mean{color: var(--tr_line);}
 #test-result-std1{color: var(--tr_line);}
 #test-result-std2{color: var(--tr_line);}

@@ -74,8 +74,24 @@ function UpdateTooltip(event, title, description, value, trMean, trStd1, trStd2,
     __g_HtmlElements["reference-data-std1"].innerText = rdStd1;
     __g_HtmlElements["reference-data-std2"].innerText = rdStd2;
 
-    __g_HtmlElements["tooltip"].style.left = event.layerX + 5 + 'px';
-    __g_HtmlElements["tooltip"].style.top = event.layerY + 'px';
+    const tooltipWidth = __g_HtmlElements["tooltip"].offsetWidth;
+    const tooltipHeight = __g_HtmlElements["tooltip"].offsetHeight;
+    const pageWidth = window.innerWidth;
+    const pageHeight = window.innerHeight + window.scrollY;
+    const mouseX = event.layerX;
+    const mouseY = event.layerY;
+    let left = mouseX + 5;
+    let top = mouseY + 10;
+    if (mouseX + tooltipWidth > pageWidth) {
+        left = mouseX - tooltipWidth - 5;
+    }
+    if(mouseY + tooltipHeight > pageHeight){
+        top = mouseY - tooltipHeight - 10;
+    }
+
+
+    __g_HtmlElements["tooltip"].style.left = left + 'px';
+    __g_HtmlElements["tooltip"].style.top = top + 'px';
     __g_HtmlElements["tooltip"].style.display = "block";
 }
 
