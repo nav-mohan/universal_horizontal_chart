@@ -54,15 +54,19 @@ function UpdateBarPlotTD()
     td_svg.selectAll("*").remove(); // remove the graph
     if(!plotData || !plotData.length) return;
 
-    const minValRD = Math.min(0,d3.min(__g_plotData["rd_data"], d => d.source_value));
-    const minValTR = Math.min(0,d3.min(__g_plotData["tr_data"], d => d.source_value));
-    const maxValRD = Math.max(0,d3.max(__g_plotData["rd_data"], d => d.source_value));
-    const maxValTR = Math.max(0,d3.max(__g_plotData["tr_data"], d => d.source_value));
+    const minValRD = d3.min(__g_plotData["rd_data"], d => d.source_value);
+    const minValTR = d3.min(__g_plotData["tr_data"], d => d.source_value);
+    const maxValRD = d3.max(__g_plotData["rd_data"], d => d.source_value);
+    const maxValTR = d3.max(__g_plotData["tr_data"], d => d.source_value);
     let minVal = minValTR;
     let maxVal = maxValTR;
     if(minValRD && minValRD < minValTR) minVal = minValRD;
     if(maxValRD && maxValRD > maxValTR) maxVal = maxValRD;
-    const padding = 0.1*(maxVal-minVal); // so that the smallest bar is not "hugging" the axis
+    const padding = 0.05*(maxVal-minVal); // so that the smallest bar is not "hugging" the axis
+    let graphBase0 = minVal - padding;
+    let graphBase1 = maxVal + padding;
+    if(minVal < 0 && maxVal > 0) graphBase0 = 0;
+    if(minVal < 0 && maxVal < 0) graphBase0 = graphBase1;
 
     // Create a scale for the X axis
     const xscale = d3.scaleLinear()
@@ -106,9 +110,9 @@ function UpdateBarPlotTD()
         .enter()
         .append("rect")
         .attr("class", "bar tr")
-        .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(0))
+        .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(graphBase0))
         .attr("y", d => yscale(d.subject_shortcode))
-        .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
+        .attr("width", d => Math.abs(xscale(d.source_value) - xscale(graphBase0)))
         .attr("height", yscale.bandwidth())
         .on("mouseover", (e,d)=>{UpdateTooltip(e,d.subject_extended_id,d.subject_shortcode,d.source_value,tr_mean,tr_mean+tr_std,tr_mean-tr_std,rd_mean,rd_mean+rd_std,rd_mean-rd_std)})
         .on("mousemove", (e,d)=>{UpdateTooltip(e,d.subject_extended_id,d.subject_shortcode,d.source_value,tr_mean,tr_mean+tr_std,tr_mean-tr_std,rd_mean,rd_mean+rd_std,rd_mean-rd_std)})
@@ -144,15 +148,19 @@ function UpdateBarPlotRD()
     rd_svg.selectAll("*").remove(); // remove the graph
     if(!plotData || !plotData.length) return;
 
-    const minValRD = Math.min(0,d3.min(__g_plotData["rd_data"], d => d.source_value));
-    const minValTR = Math.min(0,d3.min(__g_plotData["tr_data"], d => d.source_value));
-    const maxValRD = Math.max(0,d3.max(__g_plotData["rd_data"], d => d.source_value));
-    const maxValTR = Math.max(0,d3.max(__g_plotData["tr_data"], d => d.source_value));
+    const minValRD = d3.min(__g_plotData["rd_data"], d => d.source_value);
+    const minValTR = d3.min(__g_plotData["tr_data"], d => d.source_value);
+    const maxValRD = d3.max(__g_plotData["rd_data"], d => d.source_value);
+    const maxValTR = d3.max(__g_plotData["tr_data"], d => d.source_value);
     let minVal = minValRD;
     let maxVal = maxValRD;
     if(minValTR && minValTR < minValRD) minVal = minValTR;
     if(maxValTR && maxValTR > maxValRD) maxVal = maxValTR;
-    const padding = 0.1*(maxVal-minVal); // so that the smallest bar is not "hugging" the axis
+    const padding = 0.05*(maxVal-minVal); // so that the smallest bar is not "hugging" the axis
+    let graphBase0 = minVal - padding;
+    let graphBase1 = maxVal + padding;
+    if(minVal < 0 && maxVal > 0) graphBase0 = 0;
+    if(minVal < 0 && maxVal < 0) graphBase0 = graphBase1;
 
     // Create a scale for the X axis
     const xscale = d3.scaleLinear()
@@ -196,9 +204,11 @@ function UpdateBarPlotRD()
             .enter()
             .append("rect")
             .attr("class", "bar rd")
-            .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(0))
+            // .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(0))
+            .attr("x", d => d.source_value < 0 ? xscale(d.source_value) : xscale(graphBase0))
             .attr("y", d => yscale(d.short_id))
-            .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
+            // .attr("width", d => Math.abs(xscale(d.source_value) - xscale(0)))
+            .attr("width", d => Math.abs(xscale(d.source_value) - xscale(graphBase0)))
             .attr("height", yscale.bandwidth())
             .on("mouseover", (e,d)=>{UpdateTooltip(e,"Reference Data",d.short_id,d.source_value,tr_mean,tr_mean+tr_std,tr_mean-tr_std,rd_mean,rd_mean+rd_std,rd_mean-rd_std)})
             .on("mousemove", (e,d)=>{UpdateTooltip(e,"Reference Data",d.short_id,d.source_value,tr_mean,tr_mean+tr_std,tr_mean-tr_std,rd_mean,rd_mean+rd_std,rd_mean-rd_std)})
@@ -206,7 +216,6 @@ function UpdateBarPlotRD()
             .on('click',(e,d)=>{UpdatePopup(e, "Reference Data", d.short_id, d.short_id, d.description)})
 
     // Create the line-plots of mean, mean ± std
-
     rd_svg.append("path").datum(__g_plotData["tr_data"]).attr("class", "line tr").attr("d", lineMeanTR);
     rd_svg.append("path").datum(__g_plotData["tr_data"]).attr("class", "line tr").attr("d", lineMeanPlusStdTR);
     rd_svg.append("path").datum(__g_plotData["tr_data"]).attr("class", "line tr").attr("d", lineMeanMinusStdTR);
