@@ -124,17 +124,18 @@ function DoVerifyData()
             dropdownOptions = GetUnique(__g_apiData["rd_data"], dropdown_keystring);
         }
         if(dropdownOptions.length)
-            PopulateDropdownOptions(dropdownOptions,__g_HtmlElements["dropdown"]);
+            PopulateDropdownOptions(dropdownOptions,__g_HtmlElements["filter_dropdown"]);
 
-        __g_HtmlElements["dropdown"].addEventListener("change",(e) => {
+        __g_HtmlElements["filter_dropdown"].addEventListener("change",(e) => {
             __g_plotData["tr_data"] = FilterAndParseDataTD(__g_apiData["tr_data"], e.target.value, dropdown_keystring,value_keystring);
             __g_plotData["rd_data"] = FilterAndParseDataRD(__g_apiData["rd_data"], e.target.value, dropdown_keystring,value_keystring);
             UpdateBarPlotTD();
             UpdateBarPlotRD();
+            ToggleDisplayAverage();
         })
-        __g_HtmlElements["dropdown"].value = dropdownOptions[0];
+        __g_HtmlElements["filter_dropdown"].value = dropdownOptions[0];
         var event = new Event('change');
-        __g_HtmlElements["dropdown"].dispatchEvent(event);
+        __g_HtmlElements["filter_dropdown"].dispatchEvent(event);
     }
     else 
     {
@@ -142,6 +143,7 @@ function DoVerifyData()
         __g_plotData["rd_data"] = ParseDataRD(__g_apiData["rd_data"],value_keystring);
         UpdateBarPlotTD();
         UpdateBarPlotRD();
+        ToggleDisplayAverage();
     }
     
 }

@@ -48,9 +48,15 @@
         </div>
         <button id="form-submit-button" onclick="SubmitApiQuery()" >SUBMIT</button>
     </div>
-    <select class = "dropdown" name="dropdown" id="dropdown"></select>
+    <select class = "dropdown" name="filter-dropdown"  id="filter-dropdown"></select>
     <div class = "chart" id="tr-chart">
         <p class = "chart-title">Test Results</p>
+        <select class = "dropdown" name="display-dropdown" id="display-dropdown" onchange="ToggleDisplayAverage()">
+            <option value="model_average">Model Average</option>
+            <option value="refdata_average">Reference Data Average</option>
+            <option value="refdata_model_average">Reference Data Average & Model Average</option>
+            <option value="no_average">No Averages</option>
+        </select>
     </div>
     <div class = "chart" id="rd-chart">
         <p class = "chart-title">Reference Data</p>

@@ -112,9 +112,8 @@ body {
 .dropdown {
     width: 50%;
     max-width: 20em;
-    margin: 0 auto 20px auto;
-    padding: 1em;
     font-size: 1em;
+    padding: 0.5em;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #fff;
@@ -122,6 +121,13 @@ body {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
+}
+
+#filter-dropdown{
+    margin: 0 auto 0.5em auto;
+}
+#display-dropdown{
+    margin: 0 auto 0 auto;
 }
 
 /**************************************/

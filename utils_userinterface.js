@@ -34,11 +34,42 @@ function PopulateDropdownOptions(optionsArray,dropdownElement)
 function ToggleDropdownOnOff()
 {
     const dropdownKeyString = __g_apiRequestParameters["dropdown_keystring"];
-    __g_HtmlElements["dropdown"].style.display = "block";
+    __g_HtmlElements["filter_dropdown"].style.display = "block";
     if(dropdownKeyString == "" || dropdownKeyString == null || dropdownKeyString == undefined)
     {
         console.log("DISPLAY NONE DROPDOWN");
-        __g_HtmlElements["dropdown"].style.display = "None";
+        __g_HtmlElements["filter_dropdown"].style.display = "None";
+    }
+}
+
+function ToggleDisplayAverage()
+{
+    const displayDropdownValue = __g_HtmlElements["display_dropdown"].value;
+    const trLines = document.querySelectorAll(".line.tr");
+    const rdLines = document.querySelectorAll(".line.rd");
+
+    switch (displayDropdownValue) 
+    {
+        case "model_average":
+            trLines.forEach((line)=>line.style.display = "block");
+            rdLines.forEach((line)=>line.style.display = "none");
+            break;
+        case "refdata_average":
+            trLines.forEach((line)=>line.style.display = "none");
+            rdLines.forEach((line)=>line.style.display = "block");
+            break;
+        case "refdata_model_average":
+            trLines.forEach((line)=>line.style.display = "block");
+            rdLines.forEach((line)=>line.style.display = "block");
+            break;
+        case "no_average":
+            trLines.forEach((line)=>line.style.display = "none");
+            rdLines.forEach((line)=>line.style.display = "none");
+            break;
+        default:
+            trLines.forEach((line)=>line.style.display = "block");
+            rdLines.forEach((line)=>line.style.display = "block");
+            break;
     }
 }
 

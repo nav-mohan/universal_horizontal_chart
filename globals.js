@@ -12,7 +12,8 @@ const __g_HtmlElements = {
 
     "form_submit_button"            : document.getElementById("form-submit-button"),
 
-    "dropdown"                      : document.getElementById("dropdown"),
+    "filter_dropdown"               : document.getElementById("filter-dropdown"),
+    "display_dropdown"              : document.getElementById("display-dropdown"),
 
     "chart_td"                      : document.getElementById("tr-chart"),
     "chart_rd"                      : document.getElementById("rd-chart"),
